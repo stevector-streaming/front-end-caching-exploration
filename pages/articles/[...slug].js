@@ -47,7 +47,7 @@ export default function Home({ article, hrefLang }) {
   );
 }
 
-export async function getStaticPaths(context) {
+export async function getServerSidePaths(context) {
   const multiLanguage = isMultiLanguage(context.locales);
   // TODO - locale increases the complexity enough here that creating a usePaths
   // hook would be a good idea.
@@ -92,7 +92,7 @@ export async function getStaticPaths(context) {
   };
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const multiLanguage = isMultiLanguage(context.locales);
   // TODO - determine apiBase from environment variables
   const store = new DrupalState({
@@ -183,6 +183,11 @@ export async function getStaticProps(context) {
       };
     });
   });
+
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=6000'
+  );
 
   return {
     props: {
