@@ -193,7 +193,8 @@ export async function getServerSideProps(context) {
     props: {
       article,
       hrefLang,
-      revalidate: 60,
+      // I'm not sure if this property does anything for SSR.
+      revalidate: 5,
     },
   };
 }
